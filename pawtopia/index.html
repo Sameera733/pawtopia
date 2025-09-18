@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pawtopia</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: url("assets/newimg.jpg") no-repeat center center/cover; /* full background image */
+    }
+
+    .welcome-box {
+      background: rgba(0, 0, 0, 0.3); /* more see through */
+      padding: 40px;
+      border-radius: 12px;
+      color: white;
+      max-width: 400px;
+    }
+
+    .welcome-box h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    .welcome-box p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    .welcome-box button {
+      padding: 12px 24px;
+      font-size: 1em;
+      background-color: #b48673;   
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      color: white;
+    }
+
+    .welcome-box button:hover {
+      background-color: #ff9800; 
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-box">
+    <h1>Welcome to Pawtopia</h1>
+    <p>A happy place for every paw.</p>
+    <button onclick="location.href='pages/homepage.html'">Follow the Pawprints</button>
+  </div>
+</body>
+</html>

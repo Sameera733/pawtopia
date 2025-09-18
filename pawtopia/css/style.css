@@ -1,0 +1,548 @@
+/* 1) Reset & base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    Noto Sans, Apple Color Emoji, Segoe UI Emoji;
+  line-height: 1.6;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  /* color-scheme: light dark; */
+  background: canvas;
+  color: canvasText;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+:root {
+  /* Container widths tuned for laptops */
+  --max-w: 75rem; /* 1200px comfortable for laptops */
+  --gutter: 1rem; /* side padding */
+
+  /* Design tokens */
+  --radius: 1rem;
+  --shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --brand: #4c061d;
+  --brand-ink: #e0d8c5;
+
+  /* Fluid type scale using clamp(min, preferred, max) */
+  --step--1: clamp(0.875rem, 0.83rem + 0.2vw, 0.95rem);
+  --step-0: clamp(1rem, 0.96rem + 0.4vw, 1.125rem); /* base */
+  --step-1: clamp(1.25rem, 1.15rem + 0.8vw, 1.5rem);
+  --step-2: clamp(1.5rem, 1.35rem + 1vw, 1.875rem);
+  --step-3: clamp(1.875rem, 1.6rem + 1.4vw, 2.25rem);
+
+  /* slides */
+  --height: 160px; /* visible height of the scroller */
+  --gap: 6%; /* gap between images */
+  --duration: 18s; /* animation duration (change to speed up/down) */
+  --scale: 1;
+}
+
+body {
+  font-size: var(--step-0);
+}
+
+/* 2) Layout helpers */
+.container,
+.container1 {
+  width: min(100% - (var(--gutter) * 2), var(--max-w));
+  margin-inline: auto;
+}
+
+.section,
+.section1 {
+  padding-block: var(--space-8);
+}
+
+.stack > * {
+  margin-block: 0;
+}
+
+.stack > * + * {
+  margin-top: var(--space-4);
+}
+
+/* 3) Header */
+.header {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(8px);
+  /* background: color-mix(in oklab, canvas 80%, #4c061d); */
+  /* background: var(--brand); */
+  background-color: #77424d;
+  /* background-color: #a17e7d; */
+  border-bottom: 1px solid color-mix(in oklab, canvasText 15%, transparent);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block: 0.75rem;
+}
+.logo {
+  font-weight: 700;
+  font-size: var(--step-1);
+  letter-spacing: 0.2px;
+  color: #f5f5dc;
+}
+.nav {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+.nav a {
+  text-decoration: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  color: #f5f5dc;
+}
+.nav a:is(:hover, :focus-visible) {
+  /* background: color-mix(in oklab, var(--brand) 12%, transparent); */
+  color: #4c061d;
+  background-color: #f5f5dc;
+}
+
+/* 4) Hero */
+.section.hero {
+  min-height: 93dvh;
+  /* max-height: 90dvh; */
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(66, 66, 66, 0.5)),
+    url("../assets/backgd.jpg") center/cover no-repeat;
+  /* opacity: 0.5; */
+}
+
+.section {
+  min-height: 93dvh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  background-color: #e0d8c5;
+}
+
+.hero1 {
+  min-height: 93dvh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  /* background-color: #e0d8c5; */
+  background: url("../assets/clap.jpeg") center no-repeat;
+}
+
+.hero h1 {
+  font-size: var(--step-3);
+  line-height: 1.2;
+  margin-bottom: var(--space-3);
+}
+.hero p {
+  max-width: 60ch;
+  margin-inline: auto;
+}
+
+/* slider  */
+.marquee {
+  width: 100%;
+  height: var(--height);
+  overflow: hidden;
+  background-color: #77424d;
+  /* border-radius: 12px; */
+  /* background: rgba(255, 255, 255, 0.03); */
+  box-shadow: 0 6px 30px rgba(2, 6, 23, 0.6);
+  padding: 12px;
+  position: relative;
+}
+
+.logos {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  height: 100%;
+
+  /* Make track twice as wide so we can slide one full copy in/out */
+  width: 200%;
+  /* start shifted left so the visible area shows the second half first —
+         animation will move it rightward to 0% creating left→right motion */
+  transform: translateX(-50%);
+  animation: slide-right var(--duration) linear infinite;
+  will-change: transform;
+}
+
+.marq-group {
+  display: flex;
+  gap: var(--gap);
+  align-items: center;
+  padding-inline: 12px;
+  /* each group occupies 50% of the track (so two groups = 100%) */
+  flex: 0 0 50%;
+}
+
+.slides {
+  width: 100px;
+  height: 100px;
+  flex: 0 0 auto;
+  display: block;
+  /* width: calc(var(--height) * 1.6);  */
+  /* height: var(--height); */
+  border-radius: 8px;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(0, 0, 0, 0.05)
+  );
+  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.5);
+}
+
+.slides img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(var(--scale));
+  transition: transform 0.25s ease;
+}
+
+.slides:hover img {
+  transform: scale(calc(var(--scale) * 1.04));
+}
+
+@keyframes slide-right {
+  0% {
+    transform: translateX(-50%);
+  } /* start shifted left */
+  100% {
+    transform: translateX(0%);
+  } /* move right into original position */
+}
+
+/* pause on hover */
+.marquee:hover .logos {
+  animation-play-state: paused;
+}
+
+/* 5) Responsive grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--space-6);
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid color-mix(in oklab, canvasText 10%, transparent);
+  border-radius: var(--radius);
+  padding: var(--space-6);
+  box-shadow: var(--shadow);
+  background: color-mix(in oklab, canvas 98%, white);
+}
+.card h3 {
+  font-size: var(--step-1);
+  margin: 0 0 var(--space-2);
+}
+.card p {
+  margin: 0;
+}
+
+/* 6) Buttons */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in oklab, var(--brand) 10%, transparent);
+  background: var(--brand);
+  color: var(--brand-ink);
+  text-decoration: none;
+  margin: 10px;
+}
+.button:is(:hover, :focus-visible) {
+  filter: brightness(1.05);
+}
+
+/* adopt */
+
+.hero2 {
+  /* background: url("../assets/hpimg.jpg") center no-repeat; */
+  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(66, 66, 66, 0.5)), url("../assets/hpimg.jpg") center/cover no-repeat;
+}
+
+.friend {
+  /* min-height: 50dvh; */
+  color: #f5f5dc;
+  padding-block: var(--space-8);
+}
+
+.pets{
+  border-radius: var(--radius);
+  height: 20rem;
+}
+
+/* donate */
+
+.donate {
+  background-color: white;
+}
+.donate-form {
+  margin-top: 20px;
+}
+
+.form-group {
+  margin: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin: 8px;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* volunteer */
+
+.volunteer-section {
+  position: relative;
+  min-height: 100dvh;
+  padding-top: 20px;
+  padding-bottom: 100px;
+  background: url("../assets/vol.jpg") no-repeat center center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.volunteer-section .overlay {
+  background: rgba(0, 0, 0, 0);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.volunteer-form-container {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.volunteer-form-container h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.volunteer-form-container p {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.volunteer-form-container .form-group {
+  margin-bottom: 20px;
+}
+
+.volunteer-form-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.volunteer-form-container input,
+.volunteer-form-container textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.volunteer-form-container input::placeholder,
+.volunteer-form-container textarea::placeholder {
+  color: #888;
+}
+
+.volunteer-form-container button {
+  width: 100%;
+  padding: 14px;
+  background: #333;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.volunteer-form-container button:hover {
+  background: #555;
+}
+
+/* 7) Media queries targeted at laptop widths */
+@media (min-width: 64rem) {
+  /* >=1024px */
+  :root {
+    --gutter: 2rem;
+  }
+  .hero {
+    min-height: 50dvh;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+}
+@media (min-width: 80rem) {
+  /* >=1280px */
+  :root {
+    --max-w: 80rem;
+  } /* 1280px container */
+}
+@media (min-width: 96rem) {
+  /* >=1536px larger laptops/monitors */
+  :root {
+    --max-w: 90rem;
+  } /* 1440px container cap */
+}
+
+/* 8) Footer */
+footer {
+  padding: var(--space-6) 0;
+  border-top: 1px solid color-mix(in oklab, canvasText 10%, transparent);
+  font-size: var(--step--1);
+  background-color: #77424d;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20px;
+  color: #e0d8c5;
+  /* margin: 20px; */
+}
+
+.bottom {
+  /* min-width: 20px; */
+  max-width: 200px;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  color: #e0d8c5;
+}
+
+#txt {
+  display: flex;
+  justify-content: center;
+  color: #e0d8c5;
+}
+
+.text-center {
+  min-width: 500px;
+  display: flex;
+  justify-content: center;
+}
+
+i {
+  margin: 5px;
+  padding: 2px;
+  font-size: 30px;
+}
+
+/* 
+
+#container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 30px;
+  background-color: #4c061d;
+  box-shadow: 2px 2px 8px rgba(76, 6, 20, 0.7);
+  background-image: linear-gradient(#4c061d 60%, #f5f5dc);
+
+  width: 100%;
+  color: #f5f5dc;
+  align-items: center;
+  position: fixed;
+}
+
+.brand {
+  width: 200px;
+  margin-left: 20%;
+}
+
+#navbar {
+  width: 30%;
+  margin-right: 20%;
+  display: flex;
+  justify-content: space-between;
+  list-style: none;
+}
+
+a {
+  color: #f5f5dc;
+  margin: 10px;
+  padding: 7px;
+  font-size: large;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #4c061d;
+  background-color: #f5f5dc;
+  border-radius: 3px;
+  font-size: larger;
+  padding: 9px;
+}
+
+#hero {
+  margin-top: 5%;
+  width: 100%;
+  height: 700px;
+  background-color: aqua;
+} */
