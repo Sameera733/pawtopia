@@ -1,67 +1,5 @@
 
 
-// let user = 1;
-// async function donater() {
-//   let name = document.getElementById("name");
-//   let name_value = name.value.trim();
-//   let email = document.getElementById("email");
-//   let email_value = email.value.trim();
-//   let amount = document.getElementById("amount");
-//   let amount_value = amount.value.trim();
-
-//   if (!name_value) return alert("Enter the valid name!");
-//   if (!email_value) return alert("Enter the valid email!");
-//   if (!amount_value || amount_value <= 0) return alert("Enter the valid amount!");
-
-//   let divlist = document.createElement("div");
-//   divlist.classList.add("List");
-
-//   let h4 = document.createElement("h4");
-// //   h4.innerText = `${user}.${name_value} donated ₹${amount_value}`;
-//   h4.innerText = name_value;
-//   h4.setAttribute("id", user);
-
-//   divlist.appendChild(h4);
-//   document.getElementById("donate-list").appendChild(divlist);
-
-//   let data = {
-//     userId: user,
-//     name: name_value,
-//     email: email_value,
-//     amount: amount_value,
-//   };
-
-// //   writeFile(donate_file, data);
-
-//   user++;
-//   name.value = "";
-//   email.value = "";
-//   amount.value = "";
-
-//   console.log("Donation Data:", data);
-
-  
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 async function volunteer() {
     let name = document.getElementById('name');
@@ -72,7 +10,7 @@ async function volunteer() {
 
     let name_value = name.value.trim();
     let email_value = email.value.trim();
-    let phone_value = phone.value.trim();   // ✅ fixed
+    let phone_value = phone.value.trim();   
     let avail_value = avail.value.trim();
     let why_value = why.value.trim();
 
@@ -127,43 +65,6 @@ async function volunteer() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ✅ Load donors when page loads
 window.onload = async function () {
     try {
         let res = await fetch("http://localhost:5000/api/donors");
@@ -180,7 +81,7 @@ window.onload = async function () {
     }
 };
 
-// ✅ Function to add donor entry into the DOM
+
 function addDonorToUI(id, name, amount) {
     let divlist = document.createElement("div");
     divlist.classList.add("List");
@@ -192,7 +93,7 @@ function addDonorToUI(id, name, amount) {
     document.getElementById("donate-list").appendChild(divlist);
 }
 
-// ✅ Function to handle donation
+
 async function donater() {
     let name = document.getElementById("name");
     let email = document.getElementById("email");
