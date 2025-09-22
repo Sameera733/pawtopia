@@ -15,8 +15,8 @@ import bodyParser from "body-parser";
 const app = express();
 const PORT = 5000;
 
-const donateFile = "../database/donater.json";
-const volunteerFile = "../database/volunteer.json";
+const donateFile = "database/donater.json";
+const volunteerFile = "database/volunteer.json";
 
 app.use(cors());
 app.use(bodyParser.json());
